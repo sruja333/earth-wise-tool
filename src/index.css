@@ -96,5 +96,48 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+    background: linear-gradient(to bottom, hsl(142 40% 97%), hsl(142 30% 98%));
+  }
+  
+  .vine-decoration {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 80px;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.15;
+  }
+  
+  .vine-left {
+    left: 0;
+    background: linear-gradient(to bottom, 
+      transparent 0%, 
+      hsl(142 76% 36%) 10%, 
+      hsl(142 76% 36%) 30%,
+      transparent 40%,
+      hsl(142 76% 36%) 50%,
+      hsl(142 76% 36%) 70%,
+      transparent 80%,
+      hsl(142 76% 36%) 90%,
+      transparent 100%
+    );
+    clip-path: polygon(20% 0%, 40% 5%, 30% 15%, 50% 20%, 40% 30%, 60% 35%, 50% 45%, 70% 50%, 60% 60%, 80% 65%, 70% 75%, 90% 80%, 80% 90%, 100% 95%, 90% 100%, 0% 100%, 0% 0%);
+  }
+  
+  .vine-right {
+    right: 0;
+    background: linear-gradient(to bottom, 
+      transparent 0%, 
+      hsl(142 76% 36%) 10%, 
+      hsl(142 76% 36%) 30%,
+      transparent 40%,
+      hsl(142 76% 36%) 50%,
+      hsl(142 76% 36%) 70%,
+      transparent 80%,
+      hsl(142 76% 36%) 90%,
+      transparent 100%
+    );
+    clip-path: polygon(100% 0%, 100% 100%, 10% 100%, 20% 90%, 10% 80%, 30% 75%, 20% 65%, 40% 60%, 30% 50%, 50% 45%, 40% 35%, 60% 30%, 50% 20%, 70% 15%, 60% 5%, 80% 0%);
   }
 }

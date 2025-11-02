@@ -47,9 +47,13 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background relative">
+      {/* Decorative Vines */}
+      <div className="vine-decoration vine-left" />
+      <div className="vine-decoration vine-right" />
+      
       {/* Header */}
-      <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 relative">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="p-2 bg-primary/10 rounded-lg">
@@ -72,7 +76,7 @@ const Index = () => {
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-4 py-8 relative z-10">
         {state === "hero" && <Hero onGetStarted={handleGetStarted} />}
         
         {state === "form" && (
@@ -99,14 +103,51 @@ const Index = () => {
       </main>
 
       {/* Footer */}
-      <footer className="border-t mt-16 py-8 bg-muted/30">
-        <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
-          <p>
-            Emission factors sourced from EPA, CarbonFootprint.com, and FAO
-          </p>
-          <p className="mt-2">
-            Together, we can make a difference for our planet 🌍
-          </p>
+      <footer className="relative z-10 border-t mt-16 py-12 bg-gradient-to-b from-muted/50 to-primary/5">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            {/* Main Footer Content */}
+            <div className="text-center mb-8">
+              <div className="flex justify-center mb-4">
+                <div className="p-3 bg-primary/10 rounded-full">
+                  <Leaf className="w-8 h-8 text-primary" />
+                </div>
+              </div>
+              <h3 className="text-2xl font-bold mb-2 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+                Every Action Counts
+              </h3>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                Small changes in our daily habits can create a massive positive impact on our planet. 
+                Start your journey today! 🌍
+              </p>
+            </div>
+
+            {/* Stats Grid */}
+            <div className="grid md:grid-cols-3 gap-6 mb-8">
+              <div className="text-center p-4 bg-background/60 rounded-lg border border-primary/20">
+                <div className="text-3xl font-bold text-primary mb-1">25kg</div>
+                <div className="text-sm text-muted-foreground">CO₂ absorbed by 1 tree/month</div>
+              </div>
+              <div className="text-center p-4 bg-background/60 rounded-lg border border-primary/20">
+                <div className="text-3xl font-bold text-accent mb-1">40%</div>
+                <div className="text-sm text-muted-foreground">Reduction via carpooling</div>
+              </div>
+              <div className="text-center p-4 bg-background/60 rounded-lg border border-primary/20">
+                <div className="text-3xl font-bold text-primary mb-1">30%</div>
+                <div className="text-sm text-muted-foreground">Savings with renewables</div>
+              </div>
+            </div>
+
+            {/* Credits */}
+            <div className="text-center text-sm text-muted-foreground border-t pt-6">
+              <p className="mb-2">
+                Emission factors sourced from <span className="font-semibold">EPA</span>, <span className="font-semibold">CarbonFootprint.com</span>, and <span className="font-semibold">FAO</span>
+              </p>
+              <p className="text-xs opacity-75">
+                © 2025 EcoTrack · Making sustainability accessible for everyone
+              </p>
+            </div>
+          </div>
         </div>
       </footer>
     </div>

@@ -2,7 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Legend } from "recharts";
 import { Leaf, TrendingDown, TrendingUp, Lightbulb, RefreshCw } from "lucide-react";
-import { CarbonBreakdown, getAverageFootprint } from "@/lib/carbonCalculator";
+import { CarbonBreakdown, getAverageFootprint, getCategoryAverages } from "@/lib/carbonCalculator";
 
 interface DashboardProps {
   breakdown: CarbonBreakdown;
@@ -14,6 +14,7 @@ const COLORS = ["hsl(var(--chart-1))", "hsl(var(--chart-2))", "hsl(var(--chart-3
 
 export const Dashboard = ({ breakdown, suggestions, onReset }: DashboardProps) => {
   const average = getAverageFootprint();
+  const categoryAverages = getCategoryAverages();
   const percentDiff = ((breakdown.total - average) / average * 100);
   const isBelow = percentDiff < 0;
 
@@ -27,12 +28,29 @@ export const Dashboard = ({ breakdown, suggestions, onReset }: DashboardProps) =
 
   const comparisonData = [
     {
-      category: "You",
-      value: breakdown.total,
+      category: "Transportation",
+      You: breakdown.transportation,
+      Average: categoryAverages.transportation,
     },
     {
-      category: "Average",
-      value: average,
+      category: "Electricity",
+      You: breakdown.electricity,
+      Average: categoryAverages.electricity,
+    },
+    {
+      category: "Diet",
+      You: breakdown.diet,
+      Average: categoryAverages.diet,
+    },
+    {
+      category: "Waste",
+      You: breakdown.waste,
+      Average: categoryAverages.waste,
+    },
+    {
+      category: "Lifestyle",
+      You: breakdown.lifestyle,
+      Average: categoryAverages.lifestyle,
     },
   ];
 
@@ -122,22 +140,23 @@ export const Dashboard = ({ breakdown, suggestions, onReset }: DashboardProps) =
         {/* Bar Chart */}
         <Card className="shadow-md">
           <CardHeader>
-            <CardTitle>You vs Average</CardTitle>
-            <CardDescription>How you compare to others</CardDescription>
+            <CardTitle>You vs Average by Category</CardTitle>
+            <CardDescription>Compare your emissions in each area</CardDescription>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={comparisonData}>
-                <XAxis dataKey="category" />
-                <YAxis />
+                <XAxis dataKey="category" tick={{ fontSize: 12 }} />
+                <YAxis label={{ value: 'kg CO₂/month', angle: -90, position: 'insideLeft' }} />
                 <Tooltip />
                 <Legend />
-                <Bar dataKey="value" fill="hsl(var(--primary))" name="Carbon Footprint (kg/month)" />
+                <Bar dataKey="You" fill="hsl(var(--primary))" name="Your Footprint" />
+                <Bar dataKey="Average" fill="hsl(var(--secondary))" name="Average User" />
               </BarChart>
             </ResponsiveContainer>
             <div className="mt-4 p-3 bg-muted/50 rounded-lg text-center">
               <p className="text-sm text-muted-foreground">
-                Global average: <span className="font-semibold text-foreground">{average} kg CO₂/month</span>
+                Total average: <span className="font-semibold text-foreground">{average} kg CO₂/month</span>
               </p>
             </div>
           </CardContent>
