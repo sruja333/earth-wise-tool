@@ -4,6 +4,7 @@ import { CarbonForm, CarbonFormData } from "@/components/CarbonForm";
 import { Dashboard } from "@/components/Dashboard";
 import { calculateCarbonFootprint, generateSuggestions, CarbonBreakdown } from "@/lib/carbonCalculator";
 import { Leaf } from "lucide-react";
+import earthCartoon from "@/assets/earth-cartoon.png";
 
 type AppState = "hero" | "form" | "dashboard";
 
@@ -82,7 +83,16 @@ const Index = () => {
         {state === "form" && (
           <div className="max-w-3xl mx-auto">
             <div className="text-center mb-8">
-              <h2 className="text-4xl font-bold mb-4">Calculate Your Impact</h2>
+              <div className="flex justify-center mb-6 animate-float">
+                <img 
+                  src={earthCartoon} 
+                  alt="Happy Earth with nature" 
+                  className="w-64 h-48 object-contain drop-shadow-lg"
+                />
+              </div>
+              <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+                Calculate Your Impact
+              </h2>
               <p className="text-lg text-muted-foreground">
                 Answer a few questions about your lifestyle to get your personalized carbon footprint
               </p>

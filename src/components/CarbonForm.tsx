@@ -58,7 +58,7 @@ export const CarbonForm = ({ onSubmit, isCalculating }: CarbonFormProps) => {
   return (
     <form onSubmit={handleSubmit} className="space-y-6 animate-fade-in">
       {/* Travel & Transportation */}
-      <Card className="shadow-md hover:shadow-lg transition-shadow">
+      <Card className="shadow-md hover:shadow-lg transition-all hover:scale-[1.02] border-primary/20">
         <CardHeader>
           <div className="flex items-center gap-3">
             <div className="p-2 bg-primary/10 rounded-lg">
@@ -115,7 +115,7 @@ export const CarbonForm = ({ onSubmit, isCalculating }: CarbonFormProps) => {
       </Card>
 
       {/* Home Energy */}
-      <Card className="shadow-md hover:shadow-lg transition-shadow">
+      <Card className="shadow-md hover:shadow-lg transition-all hover:scale-[1.02] border-secondary/20">
         <CardHeader>
           <div className="flex items-center gap-3">
             <div className="p-2 bg-secondary/10 rounded-lg">
@@ -169,7 +169,7 @@ export const CarbonForm = ({ onSubmit, isCalculating }: CarbonFormProps) => {
       </Card>
 
       {/* Food & Diet */}
-      <Card className="shadow-md hover:shadow-lg transition-shadow">
+      <Card className="shadow-md hover:shadow-lg transition-all hover:scale-[1.02] border-accent/20">
         <CardHeader>
           <div className="flex items-center gap-3">
             <div className="p-2 bg-accent/10 rounded-lg">
@@ -220,7 +220,7 @@ export const CarbonForm = ({ onSubmit, isCalculating }: CarbonFormProps) => {
       </Card>
 
       {/* Waste & Water */}
-      <Card className="shadow-md hover:shadow-lg transition-shadow">
+      <Card className="shadow-md hover:shadow-lg transition-all hover:scale-[1.02] border-primary/20">
         <CardHeader>
           <div className="flex items-center gap-3">
             <div className="p-2 bg-primary/10 rounded-lg">
@@ -271,7 +271,7 @@ export const CarbonForm = ({ onSubmit, isCalculating }: CarbonFormProps) => {
       </Card>
 
       {/* Lifestyle */}
-      <Card className="shadow-md hover:shadow-lg transition-shadow">
+      <Card className="shadow-md hover:shadow-lg transition-all hover:scale-[1.02] border-secondary/20">
         <CardHeader>
           <div className="flex items-center gap-3">
             <div className="p-2 bg-secondary/10 rounded-lg">

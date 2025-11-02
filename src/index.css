@@ -8,47 +8,49 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 142 76% 18%;
+    --background: 142 50% 98%;
+    --foreground: 142 80% 15%;
 
     --card: 0 0% 100%;
-    --card-foreground: 142 76% 18%;
+    --card-foreground: 142 80% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 142 76% 18%;
+    --popover-foreground: 142 80% 15%;
 
-    --primary: 142 76% 36%;
+    --primary: 142 76% 32%;
     --primary-foreground: 0 0% 100%;
-    --primary-glow: 142 76% 55%;
+    --primary-glow: 142 76% 50%;
 
-    --secondary: 199 89% 48%;
+    --secondary: 160 84% 39%;
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 142 30% 96%;
-    --muted-foreground: 142 20% 45%;
+    --muted: 142 40% 94%;
+    --muted-foreground: 142 25% 40%;
 
-    --accent: 199 89% 48%;
+    --accent: 168 76% 42%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 142 30% 88%;
-    --input: 142 30% 88%;
-    --ring: 142 76% 36%;
+    --border: 142 35% 85%;
+    --input: 142 35% 85%;
+    --ring: 142 76% 32%;
 
     --radius: 0.75rem;
 
-    --chart-1: 142 76% 36%;
-    --chart-2: 199 89% 48%;
-    --chart-3: 47 88% 63%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 82% 52%;
+    --chart-1: 142 76% 32%;
+    --chart-2: 160 84% 39%;
+    --chart-3: 168 76% 42%;
+    --chart-4: 175 70% 45%;
+    --chart-5: 142 60% 50%;
 
-    --gradient-primary: linear-gradient(135deg, hsl(142 76% 36%), hsl(142 76% 55%));
-    --gradient-hero: linear-gradient(180deg, hsl(142 76% 96%), hsl(0 0% 100%));
-    --shadow-soft: 0 4px 12px hsl(142 76% 36% / 0.1);
-    --shadow-medium: 0 8px 24px hsl(142 76% 36% / 0.15);
+    --gradient-primary: linear-gradient(135deg, hsl(142 76% 32%), hsl(142 76% 50%));
+    --gradient-hero: linear-gradient(180deg, hsl(142 60% 95%), hsl(142 50% 98%));
+    --gradient-card: linear-gradient(135deg, hsl(142 50% 98%), hsl(160 50% 97%));
+    --shadow-soft: 0 4px 12px hsl(142 76% 32% / 0.12);
+    --shadow-medium: 0 8px 24px hsl(142 76% 32% / 0.18);
+    --shadow-glow: 0 0 40px hsl(142 76% 50% / 0.3);
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
@@ -96,7 +98,7 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
-    background: linear-gradient(to bottom, hsl(142 40% 97%), hsl(142 30% 98%));
+    background: linear-gradient(to bottom, hsl(142 60% 95%), hsl(142 50% 98%), hsl(160 50% 97%));
   }
   
   .vine-decoration {
@@ -113,13 +115,13 @@ All colors MUST be HSL.
     left: 0;
     background: linear-gradient(to bottom, 
       transparent 0%, 
-      hsl(142 76% 36%) 10%, 
-      hsl(142 76% 36%) 30%,
+      hsl(142 76% 32%) 10%, 
+      hsl(142 76% 32%) 30%,
       transparent 40%,
-      hsl(142 76% 36%) 50%,
-      hsl(142 76% 36%) 70%,
+      hsl(160 84% 39%) 50%,
+      hsl(160 84% 39%) 70%,
       transparent 80%,
-      hsl(142 76% 36%) 90%,
+      hsl(142 76% 32%) 90%,
       transparent 100%
     );
     clip-path: polygon(20% 0%, 40% 5%, 30% 15%, 50% 20%, 40% 30%, 60% 35%, 50% 45%, 70% 50%, 60% 60%, 80% 65%, 70% 75%, 90% 80%, 80% 90%, 100% 95%, 90% 100%, 0% 100%, 0% 0%);
@@ -129,13 +131,13 @@ All colors MUST be HSL.
     right: 0;
     background: linear-gradient(to bottom, 
       transparent 0%, 
-      hsl(142 76% 36%) 10%, 
-      hsl(142 76% 36%) 30%,
+      hsl(168 76% 42%) 10%, 
+      hsl(168 76% 42%) 30%,
       transparent 40%,
-      hsl(142 76% 36%) 50%,
-      hsl(142 76% 36%) 70%,
+      hsl(142 76% 32%) 50%,
+      hsl(142 76% 32%) 70%,
       transparent 80%,
-      hsl(142 76% 36%) 90%,
+      hsl(160 84% 39%) 90%,
       transparent 100%
     );
     clip-path: polygon(100% 0%, 100% 100%, 10% 100%, 20% 90%, 10% 80%, 30% 75%, 20% 65%, 40% 60%, 30% 50%, 50% 45%, 40% 35%, 60% 30%, 50% 20%, 70% 15%, 60% 5%, 80% 0%);
