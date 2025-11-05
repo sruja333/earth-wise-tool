@@ -50,12 +50,16 @@ async function loadAndPrepareData(): Promise<TrainingData> {
         const features: number[][] = [];
         const labels: number[] = [];
 
-        results.data.forEach((row: any) => {
+        // Sample only first 500 rows for faster training
+        const maxRows = Math.min(500, results.data.length);
+        
+        for (let i = 0; i < maxRows; i++) {
+          const row: any = results.data[i];
           if (row.carbonFootprint_kg_per_month) {
             features.push(encodeFeatures(row));
             labels.push(parseFloat(row.carbonFootprint_kg_per_month));
           }
-        });
+        }
 
         resolve({ features, labels });
       },
@@ -70,12 +74,12 @@ export async function initializeModel(): Promise<void> {
   try {
     const { features, labels } = await loadAndPrepareData();
     
-    // Train Random Forest model
+    // Train Random Forest model with fewer trees for speed
     trainedModel = new RandomForest({
       seed: 42,
       maxFeatures: 0.8,
       replacement: true,
-      nEstimators: 100,
+      nEstimators: 30,
     });
 
     trainedModel.train(features, labels);
