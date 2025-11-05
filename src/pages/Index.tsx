@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Hero } from "@/components/Hero";
 import { CarbonForm, CarbonFormData } from "@/components/CarbonForm";
 import { Dashboard } from "@/components/Dashboard";
 import { calculateCarbonFootprint, generateSuggestions, CarbonBreakdown } from "@/lib/carbonCalculator";
+import { initializeModel } from "@/lib/mlModel";
 import { Leaf } from "lucide-react";
 import earthCartoon from "@/assets/earth-cartoon.png";
 
@@ -15,6 +16,13 @@ const Index = () => {
     breakdown: CarbonBreakdown;
     suggestions: string[];
   } | null>(null);
+
+  // Initialize ML model on component mount
+  useEffect(() => {
+    initializeModel().catch(error => {
+      console.error('Failed to initialize ML model:', error);
+    });
+  }, []);
 
   const handleGetStarted = () => {
     setState("form");

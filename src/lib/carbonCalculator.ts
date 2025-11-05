@@ -1,6 +1,7 @@
 import { CarbonFormData } from "@/components/CarbonForm";
+import { predictCarbonFootprint, isModelInitialized } from "./mlModel";
 
-// Emission factors based on EPA, CarbonFootprint.com, and FAO data
+// Emission factors based on EPA, CarbonFootprint.com, and FAO data (used for breakdown calculation)
 const EMISSION_FACTORS = {
   transport: {
     car: 0.21, // kg CO2 per km
@@ -49,38 +50,65 @@ export interface CarbonBreakdown {
   total: number;
 }
 
-export const calculateCarbonFootprint = (data: CarbonFormData): CarbonBreakdown => {
-  // Transportation (monthly)
+// Helper function to calculate category breakdowns using formulas (for proportions)
+function calculateFormulaBreakdown(data: CarbonFormData) {
   const dailyTransport = data.travelKmPerDay * EMISSION_FACTORS.transport[data.transportMode as keyof typeof EMISSION_FACTORS.transport];
   const transportation = dailyTransport * 30 * EMISSION_FACTORS.carpool[data.carpool as keyof typeof EMISSION_FACTORS.carpool];
 
-  // Electricity (monthly)
   const baseElectricity = data.electricityUnits * EMISSION_FACTORS.electricity;
   const acImpact = EMISSION_FACTORS.acUsage[data.acUsage as keyof typeof EMISSION_FACTORS.acUsage];
   const electricity = (baseElectricity + acImpact) * EMISSION_FACTORS.renewableEnergy[data.renewableEnergy as keyof typeof EMISSION_FACTORS.renewableEnergy];
 
-  // Diet (monthly)
-  const meatImpact = data.meatMealsPerWeek * EMISSION_FACTORS.meatMeals * 4.3; // ~4.3 weeks per month
+  const meatImpact = data.meatMealsPerWeek * EMISSION_FACTORS.meatMeals * 4.3;
   const dairyImpact = data.dairyLitersPerDay * EMISSION_FACTORS.dairy * 30;
   const diet = (meatImpact + dairyImpact) * EMISSION_FACTORS.localFood[data.localFood as keyof typeof EMISSION_FACTORS.localFood];
 
-  // Waste (monthly)
   const wasteImpact = data.wasteKgPerWeek * EMISSION_FACTORS.waste * 4.3;
   const waterImpact = data.waterUsageLiters * EMISSION_FACTORS.water * 30;
   const waste = (wasteImpact + waterImpact) * EMISSION_FACTORS.recycle[data.recycle as keyof typeof EMISSION_FACTORS.recycle];
 
-  // Lifestyle (monthly)
   const lifestyle = (data.shoppingFreq * EMISSION_FACTORS.shopping) + (data.onlineOrders * EMISSION_FACTORS.onlineOrders);
 
-  const total = transportation + electricity + diet + waste + lifestyle;
+  const formulaTotal = transportation + electricity + diet + waste + lifestyle;
 
+  return { transportation, electricity, diet, waste, lifestyle, formulaTotal };
+}
+
+export const calculateCarbonFootprint = (data: CarbonFormData): CarbonBreakdown => {
+  try {
+    // Use ML model for total prediction if available
+    if (isModelInitialized()) {
+      const mlTotal = predictCarbonFootprint(data);
+      
+      // Calculate formula-based breakdown to get proportions
+      const { transportation, electricity, diet, waste, lifestyle, formulaTotal } = calculateFormulaBreakdown(data);
+      
+      // Scale each category to match ML prediction while maintaining proportions
+      const scaleFactor = formulaTotal > 0 ? mlTotal / formulaTotal : 1;
+      
+      return {
+        transportation: Math.round(transportation * scaleFactor * 10) / 10,
+        electricity: Math.round(electricity * scaleFactor * 10) / 10,
+        diet: Math.round(diet * scaleFactor * 10) / 10,
+        waste: Math.round(waste * scaleFactor * 10) / 10,
+        lifestyle: Math.round(lifestyle * scaleFactor * 10) / 10,
+        total: Math.round(mlTotal * 10) / 10,
+      };
+    }
+  } catch (error) {
+    console.error('ML prediction failed, falling back to formula:', error);
+  }
+
+  // Fallback to formula-based calculation if ML is not ready
+  const { transportation, electricity, diet, waste, lifestyle, formulaTotal } = calculateFormulaBreakdown(data);
+  
   return {
     transportation: Math.round(transportation * 10) / 10,
     electricity: Math.round(electricity * 10) / 10,
     diet: Math.round(diet * 10) / 10,
     waste: Math.round(waste * 10) / 10,
     lifestyle: Math.round(lifestyle * 10) / 10,
-    total: Math.round(total * 10) / 10,
+    total: Math.round(formulaTotal * 10) / 10,
   };
 };
 
