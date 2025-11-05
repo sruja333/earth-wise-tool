@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Hero } from "@/components/Hero";
 import { CarbonForm, CarbonFormData } from "@/components/CarbonForm";
 import { Dashboard } from "@/components/Dashboard";
@@ -17,13 +17,6 @@ const Index = () => {
     suggestions: string[];
   } | null>(null);
 
-  // Initialize ML model on component mount
-  useEffect(() => {
-    initializeModel().catch(error => {
-      console.error('Failed to initialize ML model:', error);
-    });
-  }, []);
-
   const handleGetStarted = () => {
     setState("form");
     setTimeout(() => {
@@ -31,20 +24,27 @@ const Index = () => {
     }, 100);
   };
 
-  const handleFormSubmit = (data: CarbonFormData) => {
+  const handleFormSubmit = async (data: CarbonFormData) => {
     setIsCalculating(true);
     
-    // Simulate calculation delay for better UX
-    setTimeout(() => {
-      const breakdown = calculateCarbonFootprint(data);
-      const suggestions = generateSuggestions(breakdown, data);
+    // Initialize ML model if not already done, then calculate
+    try {
+      await initializeModel();
       
-      setResults({ breakdown, suggestions });
-      setState("dashboard");
+      setTimeout(() => {
+        const breakdown = calculateCarbonFootprint(data);
+        const suggestions = generateSuggestions(breakdown, data);
+        
+        setResults({ breakdown, suggestions });
+        setState("dashboard");
+        setIsCalculating(false);
+        
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }, 1500);
+    } catch (error) {
+      console.error('Failed to initialize model:', error);
       setIsCalculating(false);
-      
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }, 1500);
+    }
   };
 
   const handleReset = () => {
